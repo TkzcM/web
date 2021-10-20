@@ -2548,7 +2548,9 @@ def record_subscription_activity_helper(activity_type, subscription, profile, an
         'activity_type': activity_type,
         'metadata': metadata,
     }
-    return Activity.objects.create(**kwargs)
+    activity = Activity.objects.create(**kwargs)
+    activity.populate_grant_activity_index()
+    return activity
 
 
 def record_grant_activity_helper(activity_type, grant, profile, amount=None, token=None):
@@ -2579,7 +2581,8 @@ def record_grant_activity_helper(activity_type, grant, profile, amount=None, tok
         'activity_type': activity_type,
         'metadata': metadata,
     }
-    Activity.objects.create(**kwargs)
+    activity = Activity.objects.create(**kwargs)
+    activity.populate_grant_activity_index()
 
 
 @login_required
@@ -3484,7 +3487,8 @@ def ingest_contributions(request):
                 "metadata": metadata,
             }
 
-            Activity.objects.create(**kwargs)
+            activity = Activity.objects.create(**kwargs)
+            activity.populate_grant_activity_index()
             logger.info("Saved!\n")
 
         except Exception as e:
