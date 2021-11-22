@@ -750,10 +750,10 @@ def get_specific_activities(what, trending_only, user, after_pk, request=None, p
 
     activities = Activity.objects.none()
 
-
-    page_size = 10
-    start_index = (page-1) * page_size
-    end_index = page * page_size
+    if page:
+        page_size = 10
+        start_index = (page-1) * page_size
+        end_index = page * page_size
 
     # 2. Choose which filter to index
 
